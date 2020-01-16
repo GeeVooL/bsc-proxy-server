@@ -10,7 +10,7 @@ public abstract class HttpMessage {
     this.lines = lines;
     this.lines.removeIf(l -> l.startsWith("Accept-Encoding"));
 
-    this.lines.subList(1, lines.size() - 1).forEach(l -> {
+    this.lines.subList(1, lines.size()).forEach(l -> {
       String[] parts = l.toLowerCase().split(": ");
       this.headers.put(parts[0], parts[1]);
     });
@@ -26,8 +26,6 @@ public abstract class HttpMessage {
     builder.append("\r\n");
     return builder.toString();
   }
-
-  ;
 
   protected List<String> lines;
   protected Map<String, String> headers = new HashMap<>();

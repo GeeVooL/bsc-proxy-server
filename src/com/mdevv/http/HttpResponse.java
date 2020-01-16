@@ -17,10 +17,5 @@ public class HttpResponse extends HttpMessage {
     return statusCode;
   }
 
-  public String getResourcePath() {
-    return resourcePath;
-  }
-
   private int statusCode;
-  private String resourcePath;
 }
