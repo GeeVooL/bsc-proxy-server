@@ -2,6 +2,7 @@ package com.mdevv;
 
 import com.mdevv.components.CacheManager;
 import com.mdevv.components.Configuration;
+import com.mdevv.components.WordFilter;
 import com.mdevv.handlers.RequestHandler;
 
 import java.io.IOException;
@@ -66,7 +67,8 @@ public class ProxyServer {
     try {
       ExecutorService executor = Executors.newFixedThreadPool(20);
       while (true) {
-        executor.submit(new RequestHandler(serverSocket.accept(), configuration.getFilteredWords(),
+        executor.submit(new RequestHandler(serverSocket.accept(),
+            new WordFilter(configuration.getFilteredWords()),
             cacheManager));
       }
     } catch (IOException e) {

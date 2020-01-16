@@ -17,5 +17,12 @@ public class HttpResponse extends HttpMessage {
     return statusCode;
   }
 
+  public void modifyHeader(String header, String newValue) {
+    String lowerHeader = header.toLowerCase();
+    lines.removeIf(line -> line.toLowerCase().startsWith(lowerHeader));
+    lines.add(header + ": " + newValue);
+    headers.replace(lowerHeader, newValue);
+  }
+
   private int statusCode;
 }

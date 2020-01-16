@@ -1,6 +1,7 @@
 package com.mdevv.handlers;
 
 import com.mdevv.components.CacheManager;
+import com.mdevv.components.WordFilter;
 import com.mdevv.http.HttpRequest;
 import com.mdevv.http.HttpResponse;
 import java.io.BufferedInputStream;
@@ -19,9 +20,9 @@ import java.util.List;
 
 public class RequestHandler extends Handler {
 
-  public RequestHandler(Socket clientSocket, String[] filteredWords, CacheManager cacheManager) {
+  public RequestHandler(Socket clientSocket, WordFilter wordFilter, CacheManager cacheManager) {
     this.clientSocket = clientSocket;
-    this.filteredWords = filteredWords;
+    this.wordFilter = wordFilter;
     this.cacheManager = cacheManager;
   }
 
@@ -69,7 +70,7 @@ public class RequestHandler extends Handler {
       }
 
       ResponseHandler responseHandler = new ResponseHandler(clientSocket, targetSocket, request,
-          filteredWords,
+          wordFilter,
           cacheManager);
       responseHandler.handle();
     }
@@ -80,6 +81,7 @@ public class RequestHandler extends Handler {
 
     long contentLength = cachedFile.length();
 
+    // Prepare HTTP response
     List<String> lines = new ArrayList<>();
     lines.add("HTTP/1.1 200 OK");
     lines.add("User-Agent: ProxyServer 1.0");
@@ -114,6 +116,6 @@ public class RequestHandler extends Handler {
   }
 
   Socket clientSocket;
-  String[] filteredWords;
+  WordFilter wordFilter;
   CacheManager cacheManager;
 }
